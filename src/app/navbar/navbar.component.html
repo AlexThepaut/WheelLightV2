@@ -1,0 +1,13 @@
+<div class="navbar__container">
+  <div class="navbar__item navbar__item--return">
+    <button mat-button class="nvbar__button" (click)="handleReturn()" *ngIf="isHomePage()">
+      <img src="assets/img/chevron_left.png" alt="" class="navbar__icon">
+    </button>
+  </div>
+  <div class="navbar__item navbar__item--title">
+    <h2 class="navbar__title">Wheel Light</h2>
+  </div>
+  <div class="navbar__item navbar__item--paired">
+    Connected to : {{ connectedDevice }}
+  </div>
+</div>
