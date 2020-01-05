@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TextPreview } from '../model/text-preview.model';
 import { BluetoothService } from '../service/bluetooth.service';
 import { PopupService } from '../service/popup.service';
+import { ColorEvent } from 'ngx-color';
 
 @Component({
   selector: 'app-send-text',
@@ -51,5 +52,9 @@ export class SendTextComponent implements OnInit {
     }, error => {
       console.log(`An error occured while sending the message.`);
     });
+  }
+
+  changeColor() {
+    this.popup.showColorPicker();
   }
 }

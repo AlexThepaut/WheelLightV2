@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule , RouteReuseStrategy } from '@angular/router';
+import { RouterModule, RouteReuseStrategy } from '@angular/router';
 import { ROUTES } from './app.routes';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -17,16 +17,18 @@ import { WheelSpeedComponent } from './wheel-speed/wheel-speed.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-  MatSlideToggleModule, 
-  MatIconModule, 
-  MatButtonModule, 
-  MatInputModule, 
-  MatSelectModule, 
+  MatSlideToggleModule,
+  MatIconModule,
+  MatButtonModule,
+  MatInputModule,
+  MatSelectModule,
   MatDialogModule,
   MAT_DIALOG_DEFAULT_OPTIONS
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { PopupDialog } from './popup/popup.dialog';
+import { ColorPopupComponent } from './color-popup/color-popup.component';
+import { ColorChromeModule } from 'ngx-color/Chrome';
 
 @NgModule({
   declarations: [
@@ -36,14 +38,13 @@ import { PopupDialog } from './popup/popup.dialog';
     SendTextComponent,
     WheelSpeedComponent,
     NavbarComponent,
-    PopupDialog
+    PopupDialog,
+    ColorPopupComponent
   ],
   imports: [
     BrowserModule,
-	
-	IonicModule.forRoot(),
-	AppRoutingModule,
-	
+    IonicModule.forRoot(),
+    AppRoutingModule,
     RouterModule.forRoot(ROUTES),
     BrowserAnimationsModule,
     MatSlideToggleModule,
@@ -54,15 +55,17 @@ import { PopupDialog } from './popup/popup.dialog';
     MatInputModule,
     MatSelectModule,
     MatDialogModule,
+    ColorChromeModule
   ],
   entryComponents: [
     BluetoothComponent,
-    PopupDialog
+    PopupDialog,
+    ColorPopupComponent
   ],
   providers: [
     FormBuilder,
     BluetoothSerial,
-	{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })
