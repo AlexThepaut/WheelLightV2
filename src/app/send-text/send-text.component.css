@@ -1,3 +1,7 @@
+.container {
+    justify-content: unset;
+}
+
 .send__text {
     width: 100%;
 }

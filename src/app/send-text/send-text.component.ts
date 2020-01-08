@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { TextPreview } from '../model/text-preview.model';
+import { ColoredText } from '../model/colored-text.model';
 import { BluetoothService } from '../service/bluetooth.service';
 import { PopupService } from '../service/popup.service';
 import { ColorEvent } from 'ngx-color';
+import { ColorPopupComponent } from '../color-popup/color-popup.component';
+import { MatDialog } from '@angular/material';
+import { ColorService } from '../service/color.service';
 
 @Component({
   selector: 'app-send-text',
@@ -10,12 +13,10 @@ import { ColorEvent } from 'ngx-color';
   styleUrls: ['./send-text.component.css']
 })
 export class SendTextComponent implements OnInit {
-
-  textToSend = '';
-  textPreview: TextPreview[];
+  textPreview = new Array<ColoredText>();
   defaultColor = 'red';
 
-  constructor(private bluetoothService: BluetoothService, private popup : PopupService) { }
+  constructor(private bluetoothService: BluetoothService, private popup : PopupService, private dialog: MatDialog, private colorService: ColorService) { }
 
   ngOnInit() {
     this.bluetoothService.isConnected().then(success => {
@@ -25,36 +26,30 @@ export class SendTextComponent implements OnInit {
     });
   }
 
-  setPreview() {
-    this.textPreview = [];
-    let partSplit = this.textToSend.split('*');
-    partSplit.forEach((p) => {
-      let colorSplit = p.split(']');
-      let color = (colorSplit.length > 1) ? `rgb(${colorSplit[0].substr(1)})` : this.defaultColor;
-      let text = (colorSplit.length > 1) ? colorSplit[1].slice(0, -1) : colorSplit[0];
-      this.textPreview = [... this.textPreview, new TextPreview(text, color)];
-    });
-  }
-
-  textWriting(event) {
-    let temp = event.target.value;
-    if(this.textToSend.lastIndexOf('*/*') != -1) {
-      this.textToSend = temp.slice(0, this.textToSend.indexOf('*/*')+1) + `[r, g, b] text` + temp.slice(this.textToSend.indexOf('*/*')+1, this.textToSend.length)
-    }else {
-      this.textToSend = temp;
-    }
-    this.setPreview();
-  }
-
   handleSend() {
-    this.bluetoothService.send(this.textToSend).then(success => {
+    this.bluetoothService.send(this.colorService.formatTestToSend(this.textPreview)).then(success => {
       console.log(`Message sent without errors.`);
     }, error => {
       console.log(`An error occured while sending the message.`);
     });
   }
 
-  changeColor() {
-    this.popup.showColorPicker();
+  changeColor(indexTextPreview?: number) {
+    let text = new ColoredText('', '', 255, 255, 255, this.textPreview.length);
+    if (indexTextPreview) {
+      text = this.textPreview[indexTextPreview];
+    }
+
+    const dialogRef = this.dialog.open(ColorPopupComponent, {
+      data: text
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (this.colorService.coloredText.index < this.textPreview.length) {
+        this.textPreview[this.colorService.coloredText.index] = this.colorService.coloredText;
+      } else {
+        this.textPreview.push(this.colorService.coloredText);
+      }
+    });
   }
 }
