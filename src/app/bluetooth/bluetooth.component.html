@@ -8,5 +8,5 @@
     </mat-select>
   </mat-form-field>
 
-  <button mat-raised-button (click)="handleConnect()" class="page__button" [disabled]="selected !== undifined ? false : true">Connect</button>
+  <button mat-raised-button (click)="handleConnect()" class="page__button" [disabled]="!selected">Connect</button>
 </div>
