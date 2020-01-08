@@ -35,9 +35,11 @@ export class SendTextComponent implements OnInit {
   }
 
   changeColor(indexTextPreview?: number) {
+    console.log(indexTextPreview);
     let text = new ColoredText('', '', 255, 255, 255, this.textPreview.length);
-    if (indexTextPreview) {
+    if (indexTextPreview != undefined) {
       text = this.textPreview[indexTextPreview];
+      console.log(this.textPreview[indexTextPreview])
     }
 
     const dialogRef = this.dialog.open(ColorPopupComponent, {

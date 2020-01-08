@@ -3,7 +3,7 @@
     <textarea matInput placeholder="Message a envoyer" (keyup)="textWriting($event)" [value]="textToSend" rows="5"></textarea>
   </mat-form-field> -->
 
-  <button mat-raised-button (click)="changeColor()" class="page__button">Change Color</button>
+  <button mat-raised-button (click)="changeColor()" class="page__button">Add Colored Text</button>
 
   <div class="text-preview" class="send__text-preview">
     <span *ngFor="let part of textPreview" [ngStyle]="{'color': part.colorRGB}" (click)="changeColor(part.index)">{{part.text}}</span>
